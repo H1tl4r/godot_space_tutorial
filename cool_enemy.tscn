@@ -1,0 +1,77 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://ships/Faction10-Spaceships-by-MillionthVector/destroyer.png" type="Texture" id=1]
+[ext_resource path="res://ships/Faction10-Spaceships-by-MillionthVector/destroyer_normal.png" type="Texture" id=2]
+[ext_resource path="res://objects/sparkling-fireball-small.png" type="Texture" id=3]
+[ext_resource path="res://audio/explosion.wav" type="AudioStream" id=4]
+[ext_resource path="res://enemy.gd" type="Script" id=5]
+
+[sub_resource type="Animation" id=1]
+resource_name = "fade"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="CanvasItemMaterial" id=2]
+particles_animation = true
+particles_anim_h_frames = 8
+particles_anim_v_frames = 7
+particles_anim_loop = false
+
+[sub_resource type="Curve" id=3]
+min_value = -200.0
+max_value = 200.0
+_data = [ Vector2( 0.0079561, 200 ), 0.0, 0.0, 0, 0, Vector2( 0.525052, -200 ), -289.802, 0.0, 0, 0 ]
+
+[node name="enemy" type="Area2D"]
+position = Vector2( 0.801025, -0.809296 )
+collision_layer = 2
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/fade = SubResource( 1 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+visible = false
+material = SubResource( 2 )
+emitting = false
+amount = 50
+one_shot = true
+preprocess = 0.3
+fixed_fps = 50
+texture = ExtResource( 3 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 483.67
+initial_velocity_random = 0.47
+linear_accel = -100.0
+linear_accel_curve = SubResource( 3 )
+scale_amount = 3.0
+hue_variation = 0.13
+hue_variation_random = 0.44
+anim_speed = 1.0
+
+[node name="explosion" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+
+[node name="destroyer" type="Sprite" parent="."]
+position = Vector2( 1.89752, -14.6791 )
+texture = ExtResource( 1 )
+normal_map = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 1.89752, -14.6791 )
+polygon = PoolVector2Array( -178, -162.1, -175, -160.1, -175, -159.2, -173.3, -163, -163.5, -163, -156, -159.2, -156, -157, -154.3, -161, -139, -161, -139, -158.8, -136, -155.8, -136, -148.4, -134.3, -139, -120.1, -126, -110, -128.6, -110, -125.6, -108.9, -124, -103.7, -124, -96.8, -122, -88.9, -122, -5, -112.8, -5, -110.8, 20, -85.8, 20, -84, 24, -81, 24, -78, 31.1, -78, 77.3, -73.2, 83.7, -88, 96.1, -88, 98.4, -84.2, 99.8, -87, 108.7, -87, 113.7, -83, 114.6, -83, 128, -85.4, 128, -83.1, 131, -81.1, 131, -74, 132.7, -64, 137.2, -64, 150, -61.7, 150, -59.6, 162, -43, 165.2, -43, 193, -36.6, 193, -34, 194.5, -28, 197.1, -28, 223, -24.8, 223, -22, 225.3, -5, 222, -5, 63, -3, 60, -1.60001, 60, 1, 102.2, 5, 180.9, 5, 222, 2.89999, 222, 4.89999, 225, 6.89999, 225, 23, 222.5, 23, 217.6, 26, 207.2, 26, 198, 26.8, 198, 28, 195, 28, 195, 34, 189.7, 38, 185.4, 38, 162.9, 42.7, 149, 62, 146.3, 62, 133, 63.8, 133, 67.2, 128.6, 85, 115.2, 85, 114.2, 84, 99, 87.5, 99, 85.9, 83, 88.3, 83, 85.3, 77.7, 73, 71.2, 73, 22.9, 77.8, 21.7, 85, 19.9, 85, -3.10001, 112, -6.8, 112, -102, 122.8, -102, 124, -108, 124, -108, 124.8, -111.2, 128, -119.8, 128, -120.6, 127.2, -134, 138, -134, 142.1, -136.3, 158, -137.9, 158, -139.9, 161, -154.2, 161, -155.9, 157.9, -159, 162, -164.7, 162, -174, 163.3, -174, 160.6, -175, 159.2, -175, 159.8, -179.2, 164, -194, 164, -194, 161.4, -200.4, 144, -207.8, 144, -232, 146.2, -232, 143, -234.7, 134, -232.2, 134, -225.2, 121, -217.2, 121, -198, 119.2, -192.7, 87, -190.3, 87, -174, 84.3, -174, 82.6, -160.9, 48, -165.1, 48, -221, 40.8, -221, 38.5, -224.3, 33, -223.2, 31, -222.1, 31, -214.1, 18, -198.5, 18, -196.5, 11, -137.3, 11, -132, 10.2, -135.4, -7, -133.5, -7, -132.6, -10, -134, -10, -197, -11, -197, -13.7, -198.4, -18, -214, -18, -214, -20.3, -224, -33.3, -224, -38.7, -160.4, -47.7, -173.4, -84, -176.2, -84, -193, -87.4, -193, -91.7, -197.7, -119, -205.1, -119, -225, -121.2, -225, -123.5, -234, -136.4, -234, -144, -201, -144, -194, -161.3, -194, -164, -178, -164 )
+[connection signal="area_entered" from="." to="." method="_on_enemy_area_entered"]
